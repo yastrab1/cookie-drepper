@@ -20,7 +20,7 @@ def yayy():
     print("yay")
 
 pygame.init()
-win = pygame.display.set_mode((1920,1200))
+win = pygame.display.set_mode((1440,960))
 font = pygame.font.Font("LobsterTwo-Regular.ttf",100)
 running = True
 rect = pygame.Rect(((50,50),(150,40)))
