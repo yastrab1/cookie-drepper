@@ -1,5 +1,6 @@
 import pygame
 import time
+from screeninfo import get_monitors
 
 class Button:
     def __init__(self,rect:pygame.Rect, onClick) -> None:
@@ -18,6 +19,11 @@ class Button:
 
 def yayy():
     print("yay")
+
+def getSreenSize():
+    monitors = get_monitors()
+    primary = list(filter(lambda m: m.is_primary, monitors))[0]
+    return primary.width, primary.height
 
 pygame.init()
 win = pygame.display.set_mode((1440,960))
