@@ -12,4 +12,7 @@ upgrades: dict = {upgrade:1 for upgrade in UpgradeType}
 def costToUpgrade(level:int):
     return 100*level**2
 
+def levelMultiplier(level:int):
+    return level
+
 money = 150
