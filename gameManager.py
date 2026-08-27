@@ -16,3 +16,10 @@ def levelMultiplier(level:int):
     return level
 
 money = 150
+display_money = 150
+money_desync = False
+def setMoney(new_money:int):
+    global money, display_money
+    money = new_money
+    if not money_desync:
+        display_money = money

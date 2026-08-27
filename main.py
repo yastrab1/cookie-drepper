@@ -4,8 +4,10 @@ from abc import abstractmethod
 import pygame
 import time
 
+import animations
 import constants
 import gameManager
+from animations import AnimationManager
 from constants import large_font, medium_font, keybind_to_upgrade, exercise_multipliers
 
 
@@ -49,14 +51,15 @@ class UpgradeButton(UIComponent):
         if gameManager.money < cost:
             return
 
-        gameManager.money -= cost
+        gameManager.setMoney(gameManager.money - cost)
         gameManager.upgrades[self.upgradeType] += 1
 
 
 class InputBox(UIComponent):
-    def __init__(self, rect: pygame.Rect) -> None:
+    def __init__(self, rect: pygame.Rect,manager:AnimationManager) -> None:
         self.rect = rect
         self.currentlyTyping = 0
+        self.animation_manager = manager
 
     def render(self, win: pygame.Surface):
         pygame.draw.rect(win, "darkgray", self.rect)
@@ -76,8 +79,10 @@ class InputBox(UIComponent):
             if name in keybind_to_upgrade.keys():
                 upgrade_type = keybind_to_upgrade[name]
                 upgrade_level = gameManager.upgrades[upgrade_type]
-                gameManager.money += (exercise_multipliers[upgrade_type] * self.currentlyTyping
-                                      * gameManager.levelMultiplier(upgrade_level))
+                money_gain = (exercise_multipliers[upgrade_type] * self.currentlyTyping
+                              * gameManager.levelMultiplier(upgrade_level))
+                self.animation_manager.uranium_pellet_animations(int(money_gain))
+                gameManager.setMoney(money_gain + gameManager.money)
                 self.currentlyTyping = 0
 
 
@@ -89,9 +94,11 @@ running = True
 
 components: list[UIComponent] = []
 
+animation = AnimationManager()
+
 for upgrade_type in gameManager.UpgradeType:
     components.append(UpgradeButton(constants.upgrade_button_positions[upgrade_type], upgrade_type))
-input = InputBox(constants.input_rect)
+input = InputBox(constants.input_rect,animation)
 components.append(input)
 while running:
     time.sleep(1 / 60)
@@ -102,10 +109,11 @@ while running:
         for t in components:
             t.consumeEvent(e)
 
-    money = constants.huge_font.render(f"{int(gameManager.money)}", True, "black")
+    money = constants.huge_font.render(f"{int(gameManager.display_money)}", True, "black")
     money_rect = money.get_rect(center=(constants.screen_width // 2, constants.screen_height//2))
     win.blit(money, money_rect)
     for t in components:
         t.render(win)
+    animation.render(win)
 
     pygame.display.flip()
