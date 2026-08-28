@@ -23,8 +23,9 @@ class UIComponent(abc.ABC):
 
 
 class UpgradeButton(UIComponent):
-    def __init__(self, rect: pygame.Rect, upgradeType: gameManager.UpgradeType) -> None:
+    def __init__(self, rect: pygame.Rect, upgradeType: gameManager.UpgradeType, animationManager:AnimationManager) -> None:
         self.rect = rect
+        self.animationManager = animationManager
         self.upgradeType = upgradeType
 
     def render(self, win: pygame.Surface):
@@ -50,7 +51,7 @@ class UpgradeButton(UIComponent):
         cost = gameManager.costToUpgrade(upgradeLevel)
         if gameManager.money < cost:
             return
-
+        self.animationManager.confetti_animations(self.rect.center)
         gameManager.setMoney(gameManager.money - cost)
         gameManager.upgrades[self.upgradeType] += 1
 
@@ -97,7 +98,7 @@ components: list[UIComponent] = []
 animation = AnimationManager()
 
 for upgrade_type in gameManager.UpgradeType:
-    components.append(UpgradeButton(constants.upgrade_button_positions[upgrade_type], upgrade_type))
+    components.append(UpgradeButton(constants.upgrade_button_positions[upgrade_type], upgrade_type,animation))
 input = InputBox(constants.input_rect,animation)
 components.append(input)
 while running:
