@@ -4,7 +4,6 @@ from abc import abstractmethod
 import pygame
 import time
 
-import animations
 import constants
 import gameManager
 from animations import AnimationManager
