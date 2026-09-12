@@ -84,7 +84,6 @@ class UraniumPelletAnimation:
     def __init__(self,num_pellets:int):
         self.destination_rect = pygame.Rect((0, 0), (80, 20))
         self.destination_rect.center = (screen_width // 2, screen_height // 2)
-        gameManager.money_desync = True
         self.pellets = [UraniumPellet((screen_width // 2, 100), 10, (screen_width // 2, screen_height // 2))
                         for _ in range(num_pellets)]
 
@@ -94,13 +93,11 @@ class UraniumPelletAnimation:
             if self.destination_rect.collidepoint(pellet.position):
                 self.pellets.remove(pellet)
                 del pellet
-                gameManager.display_money += 1
+                gameManager.money += 1
                 continue
             pellet.render(win)
             pellet.next_frame()
         if self.pellets == []:
-            gameManager.money_desync = False
-            gameManager.display_money = gameManager.money
             return 1
         return 0
 

@@ -8,18 +8,16 @@ class UpgradeType(Enum):
 
 
 upgrades: dict = {upgrade:1 for upgrade in UpgradeType}
+unlockedUpgrades = [UpgradeType.DREPY]
+
 
 def costToUpgrade(level:int):
-    return 100*level**2
+    return 1000*level**2
 
 def levelMultiplier(level:int):
-    return level
+    return 10*level
 
-money = 150
-display_money = 150
-money_desync = False
-def setMoney(new_money:int):
-    global money, display_money
-    money = new_money
-    if not money_desync:
-        display_money = money
+money = 0
+golden = False
+goldenStart = -1
+

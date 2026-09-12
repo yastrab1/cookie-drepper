@@ -12,14 +12,22 @@ huge_font = pygame.font.Font("LobsterTwo-Regular.ttf", 100)
 keybind_to_upgrade = {"k": UpgradeType.KLIKY, "j": UpgradeType.JUMPING, "a": UpgradeType.ANGLICAKY,
                       "b": UpgradeType.BRUSAKY, 'd': UpgradeType.DREPY}
 
-#TODO settle on real constants
 exercise_multipliers = {
-    UpgradeType.KLIKY: 1.1,
-    UpgradeType.JUMPING: 1.2,
-    UpgradeType.ANGLICAKY: 1.3,
-    UpgradeType.BRUSAKY: 1.4,
-    UpgradeType.DREPY: 1.5
+    UpgradeType.KLIKY: 2.4,
+    UpgradeType.JUMPING: 0.8,
+    UpgradeType.ANGLICAKY: 3.75,
+    UpgradeType.BRUSAKY: 1.9,
+    UpgradeType.DREPY: 1.2
 }
+
+exercise_unlock_cost = {
+    UpgradeType.DREPY:0,
+    UpgradeType.JUMPING:3500,
+    UpgradeType.ANGLICAKY:1750,
+    UpgradeType.BRUSAKY:2500,
+    UpgradeType.KLIKY:2250,
+}
+
 button_rect = pygame.Rect(((0, 0), (300, 100)))
 
 
